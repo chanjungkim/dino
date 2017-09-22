@@ -18,45 +18,76 @@
                 height: 100px;
                 position: absolute;
                 top: 10px;
-                left: 1000px;
+                left: 500px;
+            }
+            #bullet{
+				background-color: red;
+				top:30px;
+				width: 3px;
+                height: 3px;
+                position: absolute;
             }
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script type="text/javascript">
             // window.onload = function(){
             // }
-            var x = 20;
-            function onLeftBtn(){
-                // main.style.width = "5px";
-                var mainStyle = document.getElementById("dino");
-                x-=15;
-                if(x<200){
-                    mainStyle.style.backgroundColor = "black";
-                }else if(x<400){
-                    mainStyle.style.backgroundColor = "yellow";
-                }
-                mainStyle.style.left = x+"px";
+            var x = 30;
+                        
+            $(function(){          
+//             	$('#bullet').hide();
+            	$(window).keydown(function(e){
+            		if(e.which==37){
+            			x-=5;
+            			$('#dino').css('left', x+"px");
+            		}else if(e.which==39){
+            			x+=5;
+            			$('#dino').css('left', x+"px");
+            		}else if(e.which==32){
+//          				$('#dino').fadeTo(1000, 0);
+//          				$('#dino').fadeTo(1000, 1);
+         				for(var i = x ; i < 800 ; i+=100){
+//          	            	$('#bullet').show();
+         						setTimeout(function(){
+         	    				$('#bullet').css('left', i+"px");}
+         	            		, 2000
+         	 				);
+            			}
+         				$('#bullet').css('left', x);
+//          				$('#bullet').hide();
+            		}
+            		
+                	if(x>=800){
+                		$('#dino').css("backgroundColor", "red");
+                    }else if(x>=400){
+                		$('#dino').css("backgroundColor", "yellow");
+                    }else if(x>=200){
+                		$('#dino').css("backgroundColor", "blue");
+                    }else{
+                		$('#dino').css("backgroundColor", "black");
+                    }
+                	var xx = $('#goal').css("left");
+                	
+                	if(x+"px"== xx){
+                         alert('You Win!')
+                    }
+            	})
+            })
+            
+            function bulletToRight(i){
+            	setTimeout(function(){
+    				$('#bullet').css('left', i+"px");}
+            		, 2000
+ 				);
+
+				console.log(i+"px");
             }
-            function onRightBtn(){
-                var mainStyle = document.getElementById("dino");
-                x+=15;
-                if(x>=800){
-                    mainStyle.style.backgroundColor = "red";
-                }else if(x>=400){
-                    mainStyle.style.backgroundColor = "yellow";
-                }else if(x>=200){
-                    mainStyle.style.backgroundColor = "blue";
-                }
-                mainStyle.style.left = x+"px";
-                if(x>=1000){
-                    alert('You Win!')
-                }
-            }
+    
         </script>
     </head>
     <body>
-        <button onclick="onLeftBtn()">Left</button>
-        <button onclick="onRightBtn()">Right</button>
         <div id="dino"></div>
         <div id="goal"></div>
+        <div id="bullet"></div>
     </body>
 </html>
