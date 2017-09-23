@@ -5,11 +5,11 @@
         <title></title>
         <style media="screen">
             #dino{
-                background-color: black;
+                /*background-color: black;*/
                 width: 50px;
                 height: 50px;
                 position: absolute;
-                top: 30px;
+                top: 400px;
                 left: 30px;
             }
             #goal{
@@ -21,10 +21,10 @@
                 left: 500px;
             }
             #bullet{
-				background-color: red;
-				top:30px;
-				width: 3px;
-                height: 3px;
+            		background-color: red;
+            		top:30px;
+            		width: 5px;
+                height: 5px;
                 position: absolute;
             }
         </style>
@@ -33,60 +33,59 @@
             // window.onload = function(){
             // }
             var x = 30;
-                        
-            $(function(){          
+            var y = 400;
+            var counter = 0;
+            $(function(){
 //             	$('#bullet').hide();
-            	$(window).keydown(function(e){
-            		if(e.which==37){
+            	$(window).on('keydown', function(e){
+                if(e.which==37){
             			x-=5;
             			$('#dino').css('left', x+"px");
             		}else if(e.which==39){
             			x+=5;
             			$('#dino').css('left', x+"px");
-            		}else if(e.which==32){
+            		}else if(e.which==38){
+                  y-=5;
+                  $('#dino').css('top', y+"px");
+                }else if(e.which==40){
+                  y+=10;
+                  $('#dino').css('top', y+"px");
+                }else if(e.which==32){
+                  y-=30;
+                  x+=20;
+                  counter++;
+                  $('#dino').css('top', y+"px");
+                  $('#dino').css('left', x+"px");
+                }else if(e.which==70){
+                  $('#bullet').animate(
+                    {left:'1000px', visibility: 'hidden'}, 100*(800/x), 'linear',
+                      function(){
+                        if(x>800){ alert(x);
+                        }
+                        $(this).css({left:x+"px", top:y+"px", visibility: 'visible'});
+                      }
+                  )
+                }
 //          				$('#dino').fadeTo(1000, 0);
 //          				$('#dino').fadeTo(1000, 1);
-         				for(var i = x ; i < 800 ; i+=100){
-//          	            	$('#bullet').show();
-         						setTimeout(function(){
-         	    				$('#bullet').css('left', i+"px");}
-         	            		, 2000
-         	 				);
-            			}
-         				$('#bullet').css('left', x);
-//          				$('#bullet').hide();
-            		}
-            		
-                	if(x>=800){
-                		$('#dino').css("backgroundColor", "red");
-                    }else if(x>=400){
-                		$('#dino').css("backgroundColor", "yellow");
-                    }else if(x>=200){
-                		$('#dino').css("backgroundColor", "blue");
-                    }else{
-                		$('#dino').css("backgroundColor", "black");
-                    }
-                	var xx = $('#goal').css("left");
-                	
-                	if(x+"px"== xx){
-                         alert('You Win!')
-                    }
             	})
-            })
-            
-            function bulletToRight(i){
-            	setTimeout(function(){
-    				$('#bullet').css('left', i+"px");}
-            		, 2000
- 				);
 
-				console.log(i+"px");
-            }
-    
+              $(window).on('keyup', function(e){
+                if(e.which==32){
+                  for(var i = 0 ; i < counter ; i++){
+                    y+=30;
+                    x+=20;
+                    $('#dino').css('top', y+"px");
+                    $('#dino').css('left', x+"px");
+                  }
+                  counter=0;
+                }
+              })
+            })
         </script>
     </head>
     <body>
-        <div id="dino"></div>
+        <img id="dino" src="images/dino.png">
         <div id="goal"></div>
         <div id="bullet"></div>
     </body>
